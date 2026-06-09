@@ -1,0 +1,11 @@
+# Ignore build artifacts and credentials
+node_modules
+.env
+.DS_Store
+dist
+build
+coverage
+
+# Ignore all markdown files except README.md
+*.md
+!README.md
