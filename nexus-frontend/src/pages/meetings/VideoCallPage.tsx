@@ -23,6 +23,7 @@ export const VideoCallPage: React.FC = () => {
   const [isVideoOff, setIsVideoOff] = useState(false);
   const [isError, setIsError] = useState<string | null>(null);
   const [participantCount, setParticipantCount] = useState(1);
+  const [isCallConnected, setIsCallConnected] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState('');
@@ -46,15 +47,16 @@ export const VideoCallPage: React.FC = () => {
     const token = localStorage.getItem('business_nexus_token');
     return io(SOCKET_URL, {
       auth: { token },
-      reconnection: false, // Disabled to stop flapping during testing
-      transports: ['websocket'], // Force WebSocket
+      reconnection: true,
+      transports: ['websocket'], // Force WebSocket only
     });
   }, []);
 
   useEffect(() => {
     socketRef.current = socket;
     
-    socket.on('connect', () => {
+    // Use 'once' to ensure it only runs once upon connection
+    socket.once('connect', () => {
         console.log(`[DEBUG] Socket connected with ID: ${socket.id}`);
         if (localStream && !hasJoinedRef.current) {
           console.log(`[DEBUG] Attempting join-room (on connect). MeetingID: ${meetingId}`);
@@ -279,7 +281,7 @@ export const VideoCallPage: React.FC = () => {
 
       <div className="flex-1 relative flex items-center justify-center p-4 gap-4">
         <div className="relative w-full h-full rounded-2xl overflow-hidden bg-gray-900 border border-gray-800 flex items-center justify-center">
-          {remoteStream ? (
+          {isCallConnected || remoteStream ? (
             <video
               ref={remoteVideoRef}
               autoPlay

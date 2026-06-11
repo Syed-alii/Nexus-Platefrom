@@ -11,8 +11,7 @@ const documentStorage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: 'nexus/documents',
-    allowed_formats: ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png'],
-    resource_type: 'auto',
+    resource_type: 'raw', // Use 'raw' for documents to avoid format restrictions
   },
 });
 

@@ -26,7 +26,7 @@ const app = express();
 
 // Secure CORS
 const corsOptions = {
-  origin: ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:3000'],
+  origin: ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:3000', 'https://nexus-investor-entrepreneur-collabo-sigma.vercel.app'],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204
@@ -63,7 +63,7 @@ app.use(hpp()); // Prevent HTTP Parameter Pollution
 // Rate Limiting
 const limiter = rateLimit({
   windowMs: 10 * 60 * 1000, // 10 minutes
-  max: 100 // limit each IP to 100 requests per windowMs
+  max: 1000 // Increased limit from 100 to 1000
 });
 app.use('/api/', limiter);
 
