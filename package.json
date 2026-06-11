@@ -1,0 +1,11 @@
+{
+  "name": "nexus-platform",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "nexus-frontend"
+  ],
+  "scripts": {
+    "start": "npm start --prefix backend"
+  }
+}
