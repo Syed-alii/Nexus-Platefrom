@@ -26,7 +26,20 @@ const app = express();
 
 // Secure CORS
 const corsOptions = {
-  origin: ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:3000', 'https://nexus-investor-entrepreneur-collabo-sigma.vercel.app'],
+  origin: (origin, callback) => {
+    const allowedOrigins = [
+      'http://localhost:5173',
+      'http://localhost:5174',
+      'http://localhost:3000',
+      'https://nexus-investor-entrepreneur-collabo-sigma.vercel.app'
+    ];
+    // Allow any Vercel deployment URL for this project
+    if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204
